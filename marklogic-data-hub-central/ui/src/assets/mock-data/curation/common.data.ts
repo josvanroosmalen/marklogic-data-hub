@@ -340,23 +340,58 @@ const mapProps = {
   mapFunctions: mapFunctions
 };
 
+// const newMap = {
+//   title: 'New Mapping Step',
+//   newMap: true,
+//   setNewMap: jest.fn(),
+//   canReadWrite: true,
+//   isMapNameTouched: false,
+//   isDescriptionTouched: false,
+//   isSelectedSourceTouched: false,
+//   isCollectionsTouched: false,
+//   isSrcQueryTouched: false,
+//   deleteDialogVisible: false
+// };
+
 const newMap = {
-  title: 'New Mapping Step',
-  newMap: true,
-  setNewMap: jest.fn(),
+  tabKey: '1',
+  isNewStep: true,
+  openStepSettings: true,
+  setOpenStepSettings: () => {},
+  createLoadArtifact: () => {},
+  stepData: {},
   canReadWrite: true,
-  isMapNameTouched: false,
-  isDescriptionTouched: false,
-  isSelectedSourceTouched: false,
-  isCollectionsTouched: false,
-  isSrcQueryTouched: false,
-  deleteDialogVisible: false
-};
+  canReadOnly: false,
+  currentTab: '1',
+  setIsValid: () => {},
+  resetTabs: () => {},
+  setHasChanged: () => {}
+}
+
+// const editMap = {
+//   title: 'Edit Mapping Step',
+//   newMap: true,
+//   mapData: {
+//     name: 'testMap',
+//     description: 'Description of testMap',
+//     targetEntityType: 'Person',
+//     selectedSource: 'collection',
+//     sourceQuery: "cts.collectionQuery(['map-collection'])",
+//     properties: {
+//       id: {  sourcedFrom: 'id' },
+//       name: { sourcedFrom: 'name' }
+//     }
+//   },
+//   canReadWrite: true
+// };
 
 const editMap = {
-  title: 'Edit Mapping Step',
-  newMap: true,
-  mapData: {
+  tabKey: '1',
+  isNewStep: false,
+  openStepSettings: true,
+  setOpenStepSettings: () => {},
+  createLoadArtifact: () => {},
+  stepData: {
     name: 'testMap',
     description: 'Description of testMap',
     targetEntityType: 'Person',
@@ -367,8 +402,13 @@ const editMap = {
       name: { sourcedFrom: 'name' }
     }
   },
-  canReadWrite: true
-};
+  canReadWrite: true,
+  canReadOnly: false,
+  currentTab: '1',
+  setIsValid: () => {},
+  resetTabs: () => {},
+  setHasChanged: () => {}
+}
 
 const advancedSettings = {
   activityType: 'mapping',
