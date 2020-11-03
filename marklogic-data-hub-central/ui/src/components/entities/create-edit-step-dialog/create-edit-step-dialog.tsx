@@ -12,15 +12,22 @@ import { ConfirmationType } from '../../../types/common-types';
 import { StepType } from '../../../types/curation-types';
 
 type Props = {
-  isVisible: boolean;
+  tabKey: string;
+  openStepSettings: boolean;
+  setOpenStepSettings: any;
   isEditing: boolean;
   stepType: StepType;
+  stepData?: any;
   editStepArtifactObject: any;
   targetEntityType: string;
   canReadWrite: boolean;
   canReadOnly: boolean;
   toggleModal: (isVisible: boolean) => void;
   createStepArtifact: (stepArtifact: any) => void;
+  currentTab?: string;
+  setIsValid?: any;
+  resetTabs?: any;
+  setHasChanged?: any;
 }
 
 const formItemLayout = {
@@ -44,7 +51,6 @@ const { TextArea } = Input;
 const CreateEditStepDialog: React.FC<Props>  = (props) => {
 
   const { handleError } = useContext(UserContext)
-  const [modalTitle, setModalTitle] = useState('');
   const [stepName, setStepName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -66,27 +72,20 @@ const CreateEditStepDialog: React.FC<Props>  = (props) => {
   const [tobeDisabled, setTobeDisabled] = useState(false);
 
   useEffect(() => {
-    if (props.isVisible) {
-      let modalTitle = '';
+    if (props.openStepSettings) {
 
       if (props.isEditing) {
-        if (props.stepType === StepType.Matching) {
-          modalTitle = 'Edit Matching Step';
-        } else if (props.stepType === StepType.Merging) {
-          modalTitle = 'Edit Merging Step';
-        }
-
         setStepName(props.editStepArtifactObject.name);
         setDescription(props.editStepArtifactObject.description);
         setSrcQuery(props.editStepArtifactObject.sourceQuery);
         setSelectedSource(props.editStepArtifactObject.selectedSource);
 
         if (props.editStepArtifactObject.selectedSource === 'collection') {
-        let srcCollection = props.editStepArtifactObject.sourceQuery.substring(
-            props.editStepArtifactObject.sourceQuery.lastIndexOf("[") + 2,
-            props.editStepArtifactObject.sourceQuery.lastIndexOf("]") - 1
-        );
-        setCollections(srcCollection);
+          let srcCollection = props.editStepArtifactObject.sourceQuery.substring(
+              props.editStepArtifactObject.sourceQuery.lastIndexOf("[") + 2,
+              props.editStepArtifactObject.sourceQuery.lastIndexOf("]") - 1
+          );
+          setCollections(srcCollection);
         }
         
         resetTouchedValues();
@@ -95,16 +94,10 @@ const CreateEditStepDialog: React.FC<Props>  = (props) => {
 
       } else {
         // New Step Artifact
-        if (props.stepType === StepType.Matching) {
-          modalTitle = 'New Matching Step';
-        } else if (props.stepType === StepType.Merging) {
-          modalTitle = 'New Merging Step';
-        }
         resetModal();
       }
-      setModalTitle(modalTitle);
     }
-  }, [props.isVisible]);
+  }, [props.openStepSettings]);
 
   const resetModal = () => {
     setStepName('');
@@ -327,19 +320,19 @@ const CreateEditStepDialog: React.FC<Props>  = (props) => {
 
 
   return (
-    <Modal 
-      visible={props.isVisible}
-      title={null}
-      width="700px"
-      onCancel={onCancel}
-      closable={true}
-      className={styles.modal}
-      footer={null}
-      maskClosable={false}
-      destroyOnClose={true}
-    >
-      <p className={styles.title}>{modalTitle}</p>
-      <br />
+    // <Modal 
+    //   visible={props.isVisible}
+    //   title={null}
+    //   width="700px"
+    //   onCancel={onCancel}
+    //   closable={true}
+    //   className={styles.modal}
+    //   footer={null}
+    //   maskClosable={false}
+    //   destroyOnClose={true}
+    // >
+      // <p className={styles.title}>{modalTitle}</p>
+      // <br />
       <div className={styles.newMatchingForm}>
         <Form {...formItemLayout} onSubmit={handleSubmit} colon={false}>
           <Form.Item label={<span>
@@ -426,15 +419,15 @@ const CreateEditStepDialog: React.FC<Props>  = (props) => {
             </div>
           </Form.Item>
         </Form>
+        <ConfirmationModal
+          isVisible={showConfirmModal}
+          type={ConfirmationType.DiscardChanges}
+          boldTextArray={[]}
+          toggleModal={toggleConfirmModal}
+          confirmAction={confirmAction}
+        />
       </div>
-      <ConfirmationModal
-        isVisible={showConfirmModal}
-        type={ConfirmationType.DiscardChanges}
-        boldTextArray={[]}
-        toggleModal={toggleConfirmModal}
-        confirmAction={confirmAction}
-      />
-    </Modal>
+    // </Modal>
   );
 };
 
